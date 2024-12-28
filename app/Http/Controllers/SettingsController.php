@@ -52,7 +52,7 @@ class SettingsController extends Controller
 
         $userSetting = $this->userSettingService->firstByKey('setting_id', $id);
 
-        if (empty($userSetting) | $userSetting->user_id !== $user->id) {
+        if (empty($userSetting) | $userSetting->user_id !== $user->id | !$setting->editable) {
             return new JsonResponse([
                 'success' => false,
                 'message' => 'Not allowed.'
