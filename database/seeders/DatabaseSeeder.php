@@ -17,16 +17,18 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ConfirmationTypeSeeder::class,
             SourceSeeder::class,
-            
+
             DefaultSettingsSeeder::class,
         ]);
 
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@test.com',
-            'password' => bcrypt('test')
-        ]);
+        if (app()->isLocal()) {
+            User::factory()->create([
+                'name' => 'Test User',
+                'email' => 'test@test.com',
+                'password' => bcrypt('test')
+            ]);
+        }
     }
 }
