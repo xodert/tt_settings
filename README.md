@@ -32,6 +32,12 @@ TELEGRAM_BOT_USERNAME=""
 TELEGRAM_TOKEN=""
 ```
 
+And set the webhook
+
+```
+php artisan telegram:init
+```
+
 4. Configure reverb and start process
 
 ```
