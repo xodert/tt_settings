@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Services\MessageSenders\Telegram;
+namespace App\Services\MessageSenders\Email;
 
 use App\Enums\Confirmation\ConfirmationStatusEnum;
-use App\Facades\Telegram\Telegram;
+use App\Mail\CodeMail;
 use App\Services\MessageSenders\AbstractMessageSender;
+use Mail;
 
-final class TelegramMessageSender extends AbstractMessageSender implements TelegramMessageSenderInterface
+class EmailMessageSender extends AbstractMessageSender implements EmailMessageSenderInterface
 {
+
     /**
      * @return void
      */
     public function send(): void
     {
-        $chatId = $this->confirmation->user->telegram_id;
+        $email = $this->confirmation->user->email;
         $message = 'Yours confirmation code: ' . $this->confirmation->code;
 
-        Telegram::sendMessage([
-            'chat_id' => $chatId,
-            'text' => $message
-        ]);
+        Mail::to($email)->send(new CodeMail($message));
 
         $this->confirmation->update(['message' => $message, 'status' => ConfirmationStatusEnum::DELIVERED->value]);
     }

@@ -22,12 +22,12 @@ export default {
 
         window.open(response.data.data.link, '_blank');
 
-        toast.success("Telegram успешно привязан!");
+        toast.success("Telegram is successfully linked.");
 
         // Закрываем модалку
         showModal.value = false;
       } catch (e) {
-        toast.error(e.response?.data?.message || "Ошибка при привязке Telegram.");
+        toast.error(e.response?.data?.message || "The error occurred while trying to link a Telegram.");
       }
     };
 
@@ -74,19 +74,19 @@ export default {
     </div>
     <div v-else>
       <PrimaryButton v-if="!isLinking" @click="showModal = true">Link</PrimaryButton>
-      <PrimaryButton v-else>Ожидаем привязки</PrimaryButton>
+      <PrimaryButton v-else>Waiting for link</PrimaryButton>
     </div>
 
     <Modal v-if="showModal" style="margin-top: 0" @close="showModal = false">
       <template #title>Telegram link</template>
       <template #body>
         <div class="flex flex-col gap-y-3">
-          <p>Нажмите кнопку ниже, чтобы привязать Telegram к вашему аккаунту.</p>
+          <p>Press the button below to link your Telegram account.</p>
         </div>
       </template>
       <template #footer>
         <PrimaryButton :disabled="isLinking" @click="linkTelegram">
-          {{ isLinking ? "Привязываем..." : "Привязать" }}
+          {{ isLinking ? "Linking..." : "Link" }}
         </PrimaryButton>
         <PrimaryButton class="ml-2" @click="showModal = true">Cancel</PrimaryButton>
       </template>

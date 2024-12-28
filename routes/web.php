@@ -6,9 +6,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Middleware\HandleInertiaRequests;
-use App\Models\User;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,20 +19,18 @@ Route::get('/', function () {
     ]);
 });
 
-Route::post('/test', fn() => Redirect::route('settings.index'))->name('test');
-
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->prefix('profile')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('profile')->group(function () {
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/', 'edit')->name('profile.edit');
         Route::patch('/', 'update')->name('profile.update');
         Route::delete('/', 'destroy')->name('profile.destroy');
     });
 
-    Route::post('//telegram/link', [TelegramController::class, 'link'])
+    Route::post('/telegram/link', [TelegramController::class, 'link'])
         ->name('telegram.link');
 
     Route::prefix('settings')->group(function () {
@@ -49,19 +45,11 @@ Route::post('/{botToken}/webhook', WebhookController::class)
     ->name('telegram.webhook')
     ->withoutMiddleware(['web', HandleInertiaRequests::class]);
 
-Route::prefix('confirmation')->group(function () {
+Route::prefix('/confirmation')->group(function () {
     Route::controller(ConfirmationController::class)->group(function () {
         Route::post('/sendCode', 'sendCode')->name('confirmation.sendCode');
         Route::post('/checkCode', 'checkCode')->name('confirmation.checkCode');
     });
-});
-
-Route::get('/test', function () {
-    App\Events\TelegramLinked::dispatch(User::query()->firstWhere('id', 1));
-
-    return response()->json([
-        'aaa'
-    ]);
 });
 
 require __DIR__ . '/auth.php';

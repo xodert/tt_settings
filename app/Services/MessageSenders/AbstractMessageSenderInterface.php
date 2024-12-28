@@ -4,5 +4,5 @@ namespace App\Services\MessageSenders;
 
 interface AbstractMessageSenderInterface
 {
-    public function send();
+    public function send(): void;
 }

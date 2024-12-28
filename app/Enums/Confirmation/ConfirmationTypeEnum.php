@@ -2,6 +2,7 @@
 
 namespace App\Enums\Confirmation;
 
+use App\Services\MessageSenders\Email\EmailMessageSender;
 use App\Services\MessageSenders\Telegram\TelegramMessageSender;
 use App\Traits\EnumTrait;
 use Nette\NotImplementedException;
@@ -23,6 +24,7 @@ enum ConfirmationTypeEnum: string
     {
         return match ($this) {
             self::TELEGRAM => TelegramMessageSender::class,
+            self::EMAIL => EmailMessageSender::class,
             default => throw new NotImplementedException(),
         };
     }

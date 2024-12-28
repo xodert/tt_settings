@@ -127,7 +127,8 @@ export default {
       sendCode,
       confirmationType,
       settingForm,
-      isActive
+      isActive,
+      route
     };
   },
   mounted() {
@@ -179,9 +180,7 @@ export default {
           </div>
           <div v-else class="flex flex-col gap-y-3">
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid at aut esse fugiat, ipsam
-              laboriosam nisi nostrum odit porro possimus praesentium, quae quaerat quasi sunt, tempora unde voluptas
-              voluptatibus.
+              Enter a confirmation code. Some of the ways needed to be <a :href="route('profile.edit')"></a>.
             </p>
             <InputLabel value="Confirmation code"/>
             <input
